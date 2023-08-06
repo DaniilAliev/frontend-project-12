@@ -8,8 +8,9 @@ const LoginForm = () => {
     initialValues={{ username: "", password: "" }}
     onSubmit={async ( values, { setSubmitting }) => {
       console.log(values)
-      const response = await axios.get("/api/v1/data")
-      console.log(response.data)
+      const { response } = await axios.post('/api/v1/login', { username: 'admin', password: 'admin' })
+      console.log(JSON.parse(response))
+      setSubmitting(false)
     }}>
       {() => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
