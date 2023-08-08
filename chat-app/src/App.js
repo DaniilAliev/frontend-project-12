@@ -7,10 +7,12 @@ import Root from './routes/root';
 import ErrorPage from './components/ErrorPage';
 import NavBar from './components/NavBar';
 import Login from './components/Login';
+import { AuthContext } from './context';
+import { useState } from 'react';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
@@ -27,17 +29,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [user, setUser] = useState(null)
+  // console.log(user)
   return (
-    <>
-
+    <AuthContext.Provider value={{user, setUser}}>
       <div className="h-100" id="chat">
         <div className="d-flex flex-column h-100">
           <NavBar />
           <RouterProvider router={router} />
         </div>
       </div>
-
-    </>
+    </AuthContext.Provider>
   );
 }
 
