@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter, current, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 
 const channelsAdapter = createEntityAdapter();
@@ -23,7 +23,7 @@ const channelSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchChannels.fulfilled, (state, {payload}) => {
-                console.log(payload)
+                // console.log(payload)
                 channelsAdapter.addMany(state, payload.channels)
             })
             .addCase(fetchChannels.rejected, (state, { payload }) => {

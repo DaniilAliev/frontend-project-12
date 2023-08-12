@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios'
-import { useAuth, logIn } from "../context";
+import { logIn } from "../context";
 import { useNavigate } from "react-router-dom";
 import cn from 'classnames'
-import { useDispatch } from 'react-redux';
-import { fetchChannels } from "../slices/channelsSlice";
 
 const LoginForm = () => {
   const [invalidState, setInvalidState] = useState(false)
-  const { setUser } = useAuth();
   const navigate = useNavigate();
   const classNames = cn('form-control', {
     'is-invalid': invalidState
   });
-  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -23,10 +19,8 @@ const LoginForm = () => {
       try {
         const response = await axios.post('/api/v1/login', { username: values.username, password: values.password })
         if (response.data.token) {
-          setUser(response.data);
-          console.log(response.data.token)
-          logIn(response.data.token);
-          dispatch(fetchChannels(response.data.token))
+          console.log(response.data)
+          logIn(response.data);
           navigate('/')
         }}
         catch (error) {
