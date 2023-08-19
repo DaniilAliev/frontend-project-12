@@ -4,15 +4,21 @@ import LoginImage from '../images/login-image.jpeg';
 import SignUpImage from '../images/signup-image.jpg'
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import { useAuth } from "../context";
+import { Link } from "react-router-dom";
 
-const CardFooter = () => (
+const CardFooter = () => {
+  const { user, setUser } = useAuth();
+
+  return (
   <div className="card-footer p-4">
     <div className="text-center">
       <span>Нет аккаунта? </span>
-      <a href="/signup">Регистрация</a>
+      <Link to="/signup">Регистрация</Link>
     </div>
   </div>
-)
+  )
+}
 
 
 const Login = ({ type }) => {

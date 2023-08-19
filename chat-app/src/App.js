@@ -7,9 +7,8 @@ import Root from './routes/root';
 import ErrorPage from './components/ErrorPage';
 import NavBar from './components/NavBar';
 import Login from './components/Login';
-import { AuthContext } from './context';
-import { useState, useEffect } from 'react';
-import parserUser from './context/parser';
+import AuthProvider from './context/AuthProvider';
+import ChatProvider from './context/ChatProvider';
 
 const router = createBrowserRouter([
   {
@@ -30,24 +29,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const user = parserUser();
-  const [isAuth, setAuth] = useState();
-
-  useEffect(() => {
-    if (user) {
-      setAuth(true);
-    }
-  }, [user]);
-  
   return (
-    <AuthContext.Provider value={{isAuth}}>
+    <AuthProvider>
       <div className="h-100" id="chat">
         <div className="d-flex flex-column h-100">
-          <NavBar />
-          <RouterProvider router={router} />
+          <ChatProvider>
+            <NavBar />
+            <RouterProvider router={router} />
+          </ChatProvider>
         </div>
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

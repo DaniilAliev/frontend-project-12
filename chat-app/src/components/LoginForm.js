@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios'
-import { logIn } from "../context";
+import { useAuth } from "../context";
 import { useNavigate } from "react-router-dom";
-import cn from 'classnames'
+import cn from 'classnames';
+
 
 const LoginForm = () => {
   const [invalidState, setInvalidState] = useState(false)
   const navigate = useNavigate();
+  const { logIn } = useAuth()
   const classNames = cn('form-control', {
     'is-invalid': invalidState
   });
@@ -19,9 +21,8 @@ const LoginForm = () => {
       try {
         const response = await axios.post('/api/v1/login', { username: values.username, password: values.password })
         if (response.data.token) {
-          console.log(response.data)
           logIn(response.data);
-          navigate('/')
+          navigate('/');
         }}
         catch (error) {
           setSubmitting(false);
