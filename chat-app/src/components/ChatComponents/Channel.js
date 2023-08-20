@@ -4,7 +4,6 @@ import { useChat } from "../../context";
 import { useSelector } from "react-redux";
 
 const Channel = ({ channel }) => {
-
   const currentId = useSelector((state) => state.currentChannelId.id);
 
   const { setCurrentId } = useChat();

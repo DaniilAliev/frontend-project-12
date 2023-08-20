@@ -2,7 +2,9 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 const channelsAdapter = createEntityAdapter();
 
-const initialState = {id: null}
+const initialChannelId = 1;
+
+const initialState = {id: initialChannelId}
 
 const currentChannelIdSlice = createSlice({
     name: 'currentChannelId',

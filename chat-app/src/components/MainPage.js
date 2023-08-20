@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import Channels from "./ChatComponents/Channels";
 import MessagesWindow from "./ChatComponents/MessagesWindow";
+import axios from "axios";
 import { useAuth, useChat } from "../context";
+
 
 const MainPage = () => {
   const { user } = useAuth();
-  const { addChannels, addMessages, setCurrentId } = useChat();
+  const { addChannels, addMessages } = useChat()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,15 +18,13 @@ const MainPage = () => {
       });
 
       const { data } = response;
-      console.log(data);
 
       addChannels(data.channels);
       addMessages(data.messages);
-      setCurrentId(data.currentChannelId);
     };
     
     fetchData();
-  }, [addChannels, addMessages, setCurrentId, user])
+  }, [addChannels, addMessages, user])
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

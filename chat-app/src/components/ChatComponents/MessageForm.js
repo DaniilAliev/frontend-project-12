@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import _ from 'lodash';
-import { useAuth, useChat } from "../../context";
+import { useChat } from "../../context";
 
 const MessageForm = () => {
     const [isActive, setActive] = useState(false)
@@ -10,8 +9,6 @@ const MessageForm = () => {
     const inputEl = useRef(null);
 
     const currentId = useSelector((state) => state.currentChannelId.id);
-
-    const { user } = useAuth();
 
     const { addMessage } = useChat()
 
@@ -27,15 +24,8 @@ const MessageForm = () => {
         <Formik
             initialValues={{body: ''}}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-                const sentMessage = {
-                    id: _.uniqueId(),
-                    meassage: values.body,
-                    user: user.username,
-                };
 
-                console.log(sentMessage);
-
-                addMessage(sentMessage);
+                addMessage(values.body);
 
                 resetForm();
 

@@ -1,18 +1,18 @@
-import React, { useRef } from "react";
+import React from "react";
 import MessageForm from "./MessageForm";
-import { useChat } from "../../context";
+import Message from "./Message";
 import { useSelector } from "react-redux";
-import { selectors } from "../../slices/channelsSlice";
+import { selectors as channelsSelectors } from "../../slices/channelsSlice";
+import { selectors as messagesSelectors } from "../../slices/messagesSlice";
 
 const MessagesWindow = () => {
   const currentId = useSelector((state) => state.currentChannelId.id);
-  const channels = useSelector(selectors.selectAll);
+  const channels = useSelector(channelsSelectors.selectAll);
+  const messages = useSelector(messagesSelectors.selectAll);
 
   const currentChannel = channels.filter((channel) => channel.id === currentId).shift();
 
-  console.log(currentChannel);
-
-  const inputEl = useRef(null);
+  const currentMessages = messages.filter((message) => message.channelId === currentId);
 
   return(
     <div className="col p-0 h-100">
@@ -22,7 +22,7 @@ const MessagesWindow = () => {
           <span className="text-muted">сообщений</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-
+          {currentMessages.map(message => <Message data={message} key={message.id}/>)}
         </div>
         <div className="mt-auto px-5 py-3">
           <MessageForm />
