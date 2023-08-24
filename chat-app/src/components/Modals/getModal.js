@@ -1,20 +1,23 @@
 import AddModal from "./Add";
+import RemoveModal from "./Remove";
+import RenameModal from "./Rename";
 
-const getModalWithProps = (type, hideModal) => {
+const getModalWithProps = (modalData, hideModal) => {
   const mapping = {
     'adding': <AddModal hideModal={hideModal}/>,
+    'removing': <RemoveModal hideModal={hideModal} channel={modalData.channel}/>,
+    'renaming' : <RenameModal hideModal={hideModal} channel={modalData.channel}/>
   };
 
-  return mapping[type]
+  return mapping[modalData.type]
 }
 
-const getModal = (type, hideModal) =>getModalWithProps(type, hideModal);
+const getModal = (modalData, hideModal) => getModalWithProps(modalData, hideModal);
 
 const Modal = ({ modalData, hideModal }) => {
-  
   return ( modalData.type !== null &&
     <div role="dialog" aria-modal className="fade modal show" tabIndex={-1} style={{ display: 'block' }}>
-        {getModal(modalData.type, hideModal)}
+        {getModal(modalData, hideModal)}
     </div>
   )
 }

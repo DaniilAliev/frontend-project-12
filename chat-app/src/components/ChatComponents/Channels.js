@@ -22,7 +22,7 @@ const Channels = () => {
   const hideModal = () => {
     setModal((draft) => {
       draft.type = null;
-      draft.channelId = null;
+      draft.channel = null;
     });
   }
 
@@ -43,7 +43,7 @@ const Channels = () => {
         </button>
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {channels.map((channel) => <Channel channel={channel} key={channel.id}/>)}
+        {channels.map((channel) => <Channel channel={channel} showModal={showModal} key={channel.id}/>)}
       </ul>
       <Modal modalData={modalData} hideModal={hideModal}/>
     </div>

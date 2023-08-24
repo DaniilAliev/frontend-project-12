@@ -10,6 +10,11 @@ const channelSlice = createSlice({
     reducers: {
         addChannels: channelsAdapter.addMany,
         addChannel: channelsAdapter.addOne,
+        removeChannel: (state, { payload }) => {
+            console.log(payload)
+            channelsAdapter.removeOne(state, payload)
+        },
+        updateChannel: channelsAdapter.updateOne
     },
 })
 

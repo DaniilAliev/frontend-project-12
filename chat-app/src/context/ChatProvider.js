@@ -20,6 +20,14 @@ const ChatProvider = ({ socket, children }) => {
     await socket.timeout(5000).emit('newChannel', channel);
   };
 
+  const removeChannel = async (id) => {
+    await socket.timeout(5000).emit('removeChannel', { id })
+  }
+
+  const renameChannel = async (id, name) => {
+    await socket.timeout(5000).emit('renameChannel', { id, name })
+  }
+
   const addMessages = (messages) => dispatch(messagesActions.addMessages(messages));
   const addMessage = async (message) => {
     const messageData = {
@@ -34,7 +42,7 @@ const ChatProvider = ({ socket, children }) => {
   const setCurrentId = (id) => dispatch(currentIdActions.setCurrentId(id));
 
   return (
-    <ChatContext.Provider value={{ addChannels, addChannel, addMessages, addMessage, setCurrentId }}>
+    <ChatContext.Provider value={{ addChannels, addChannel, removeChannel, renameChannel, addMessages, addMessage, setCurrentId }}>
       {children}
     </ChatContext.Provider>
   )

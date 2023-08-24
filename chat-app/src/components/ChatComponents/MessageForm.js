@@ -26,11 +26,9 @@ const MessageForm = () => {
             onSubmit={(values, { setSubmitting, resetForm }) => {
 
                 addMessage(values.body);
-
                 resetForm();
-
                 inputEl.current.focus();
-
+                setActive(false);
                 setSubmitting(false);
             }}
         >
