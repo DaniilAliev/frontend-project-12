@@ -11,7 +11,7 @@ const MainPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('/api/v1/data', {
+      try {const response = await axios.get('/api/v1/data', {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -21,6 +21,9 @@ const MainPage = () => {
 
       addChannels(data.channels);
       addMessages(data.messages);
+      } catch (e) {
+        console.log('error fetch')
+      }
     };
     
     fetchData();

@@ -4,22 +4,21 @@ import LoginImage from '../images/login-image.jpeg';
 import SignUpImage from '../images/signup-image.jpg'
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { useAuth } from "../context";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CardFooter = () => {
-  const { user, setUser } = useAuth();
+  const { t } = useTranslation();
 
   return (
   <div className="card-footer p-4">
     <div className="text-center">
-      <span>Нет аккаунта? </span>
-      <Link to="/signup">Регистрация</Link>
+      <span>{t('login.noAcc')}</span>
+      <Link to="/signup">{t('signup.signupText')}</Link>
     </div>
   </div>
   )
 }
-
 
 const Login = ({ type }) => {
   const loginClasses = 'row';

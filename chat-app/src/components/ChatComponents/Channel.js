@@ -3,8 +3,11 @@ import cn from "classnames";
 import { useChat } from "../../context";
 import { useSelector } from "react-redux";
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
+import { useTranslation } from "react-i18next";
 
 const Channel = ({ channel, showModal }) => {
+  const { t } = useTranslation()
+
   const currentId = useSelector((state) => state.currentChannelId.id);
 
   const { setCurrentId } = useChat();
@@ -13,15 +16,14 @@ const Channel = ({ channel, showModal }) => {
     setCurrentId(channel.id);
   };
 
-  const className = cn('w-100', 'rounded-0', 'text-start', 'btn');
+  const className = cn('w-100', 'rounded-0', 'text-start', 'text-truncate', 'btn');
 
   const variant = channel.id === currentId ? 'secondary' : 'default';
 
   const notRemovableButton = 
   <li className="nav-item w-100">
     <Button variant={variant} className={className} onClick={handleClick}>
-      <span className="me-1">#</span>
-      {channel.name}
+    {`# ${channel.name}`}
     </Button>
   </li>
 
@@ -37,11 +39,11 @@ const Channel = ({ channel, showModal }) => {
       {channel.removable && 
         <>
           <Dropdown.Toggle variant={variant} split className="border-0">
-            <span className="visually-hidden">Управление каналом</span>
+            <span className="visually-hidden">{t('chatPage.channelOptions')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#" onClick={() => showModal('removing', channel)}>Удалить</Dropdown.Item>
-            <Dropdown.Item href="#" onClick={() => showModal('renaming', channel)}>Переименовать</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => showModal('removing', channel)}>{t('chatPage.removeChannel')}</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => showModal('renaming', channel)}>{t('chatPage.renameChannel')}</Dropdown.Item>
           </Dropdown.Menu>
         </>
       }

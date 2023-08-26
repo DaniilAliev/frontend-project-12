@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import cn from 'classnames'
 import Modal from 'react-bootstrap/Modal';
@@ -7,8 +8,11 @@ import { Formik, Form, Field } from 'formik';
 import { useChat } from "../../context";
 import { selectors } from "../../slices/channelsSlice";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const AddModal = ({ hideModal }) => {
+  const { t } = useTranslation();
+
   const inputEl = useRef();
 
   useEffect(() => {
@@ -22,48 +26,53 @@ const AddModal = ({ hideModal }) => {
   const { addChannel, setCurrentId } = useChat();
 
   const addChannelSchema = Yup.object().shape({
-    name: Yup.string().required('Обязательное поле').notOneOf(channelsNames, 'Должно быть уникальным'),
+    name: Yup.string().trim().min(3, `${t('errors.usernameSymbols')}`).max(20, `${t('errors.usernameSymbols')}`).notOneOf(channelsNames, `${t('errors.unique')}`).required(`${t('errors.reqired')}`),
   })
 
   const classNames = (errors, touched) => cn('mb-2', 'form-control', {
     'is-invalid': errors.name && touched.name,
   })
   
-
   return(
     <div className="modal-content">
       <Modal show onHide={hideModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Добавить канал</Modal.Title>
+          <Modal.Title>{t('modals.add.title')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Formik
             initialValues={{name: ''}}
             validationSchema={addChannelSchema}
-            validateOnMount={false}
+            validateOnBlur={false}
+            validateOnChange={false}
             onSubmit={async (values, { setSubmitting }) => {
               try {
                 await addChannel(values);
-                setCurrentId(channels.length + 1);
+                const channelsIds = channels.map(channel => channel.id);
+                const lastAddedId = channelsIds[channelsIds.length];
+                console.log(lastAddedId)
+                setCurrentId(lastAddedId);
                 hideModal();
-                setSubmitting(true)
+                setSubmitting(true);
+                toast.success(`${t('toastify.add')}`);
               }
               catch (e) {
+                setSubmitting(false);
+                toast.error(`${t('errors.networkError')}`)
               }
-              setSubmitting(false)
             }}
           >
             {({errors, touched, isSubmitting}) => (
               <Form>
                 <div>
                   <Field innerRef={inputEl} name="name" id="name" className={classNames(errors, touched)} />
-                  <label className="visually-hidden" htmlFor="name">Имя канала</label>
+                  <label className="visually-hidden" htmlFor="name">{t('modals.add.label')}</label>
                   {errors.name && touched.name ? (
                     <div className="invalid-feedback">{errors.name}</div>
                 ) : null}
                   <div className="d-flex justify-content-end">
-                    <Button variant="secondary" className="me-2" onClick={hideModal}>Отменить</Button>
-                    <Button type="submit" disabled={isSubmitting}>Отправить</Button>
+                    <Button variant="secondary" className="me-2" onClick={hideModal}>{t('modals.add.cancelBtn')}</Button>
+                    <Button type="submit" disabled={isSubmitting}>{t('modals.add.submitBtn')}</Button>
                   </div>
                 </div>
               </Form>

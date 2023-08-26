@@ -4,7 +4,7 @@ import RenameModal from "./Rename";
 
 const getModalWithProps = (modalData, hideModal) => {
   const mapping = {
-    'adding': <AddModal hideModal={hideModal}/>,
+    'adding': <AddModal hideModal={hideModal} />,
     'removing': <RemoveModal hideModal={hideModal} channel={modalData.channel}/>,
     'renaming' : <RenameModal hideModal={hideModal} channel={modalData.channel}/>
   };
