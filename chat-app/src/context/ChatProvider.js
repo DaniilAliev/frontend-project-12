@@ -12,7 +12,7 @@ const ChatProvider = ({ socket, children }) => {
 
   const currentId = useSelector((state) => state.currentChannelId.id);
 
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   const addChannels = (channels) => dispatch(channelsActions.addChannels(channels));
   
@@ -22,11 +22,11 @@ const ChatProvider = ({ socket, children }) => {
 
   const removeChannel = async (id) => {
     await socket.timeout(5000).emit('removeChannel', { id })
-  }
+  };
 
   const renameChannel = async (id, name) => {
     await socket.timeout(5000).emit('renameChannel', { id, name })
-  }
+  };
 
   const addMessages = (messages) => dispatch(messagesActions.addMessages(messages));
   const addMessage = async (message) => {
@@ -36,7 +36,7 @@ const ChatProvider = ({ socket, children }) => {
       user: user.username,
     };
 
-    await socket.timeout(5000).emit('newMessage', messageData);
+    await socket.timeout(5000).emit('newMessage', messageData);  
   };
 
   const setCurrentId = (id) => dispatch(currentIdActions.setCurrentId(id));
@@ -46,7 +46,6 @@ const ChatProvider = ({ socket, children }) => {
       {children}
     </ChatContext.Provider>
   )
-  
-}
+};
 
 export default ChatProvider;

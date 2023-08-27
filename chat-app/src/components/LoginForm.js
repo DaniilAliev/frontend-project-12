@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios'
 import { useAuth } from "../context";
@@ -32,6 +33,10 @@ const LoginForm = () => {
           if (error.response?.status === 401) {
             error.authentification = true;
             setInvalidState(true)
+          }
+          if (error.response?.status === 500) {
+            console.log('500')
+            toast.error(`${t('errors.networkError')}`);
           }
       }
     }}>

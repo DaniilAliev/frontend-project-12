@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -8,7 +8,20 @@ import { useTranslation } from "react-i18next";
 const RemoveModal = ({ hideModal, channel }) => {
   const { t } = useTranslation();
 
-  const { removeChannel } = useChat()
+  const { removeChannel } = useChat();
+
+  const [isSubmitting, setSubmitting] = useState(false)
+
+  const handleRemove = async () => {
+    try {
+      await removeChannel(channel.id); 
+      hideModal(); 
+      toast.success(`${t('toastify.remove')}`)
+      setSubmitting(true)
+    } catch {
+      setSubmitting(false)
+    }
+  } 
 
   return(
     <Modal show onHide={hideModal} centered>
@@ -19,7 +32,7 @@ const RemoveModal = ({ hideModal, channel }) => {
         <p className="lead">{t('modals.remove.p')}</p>
         <div className="d-flex justify-content-end">
           <Button variant="secondary" className="me-2" onClick={hideModal}>{t('modals.remove.cancelBtn')}</Button>
-          <Button variant="danger" onClick={() => {removeChannel(channel.id); hideModal(); toast.success(`${t('toastify.remove')}`)}}>{t('modals.remove.removeBtn')}</Button>
+          <Button variant="danger" disabled={isSubmitting} onClick={handleRemove}>{t('modals.remove.removeBtn')}</Button>
         </div>
       </Modal.Body>
     </Modal>

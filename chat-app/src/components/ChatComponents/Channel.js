@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import filter from 'leo-profanity';
 import { useChat } from "../../context";
 import { useSelector } from "react-redux";
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
@@ -20,10 +21,12 @@ const Channel = ({ channel, showModal }) => {
 
   const variant = channel.id === currentId ? 'secondary' : 'default';
 
+  const filteredChannelName = filter.clean(channel.name);
+
   const notRemovableButton = 
   <li className="nav-item w-100">
     <Button variant={variant} className={className} onClick={handleClick}>
-    {`# ${channel.name}`}
+    {`# ${filteredChannelName}`}
     </Button>
   </li>
 
@@ -34,7 +37,7 @@ const Channel = ({ channel, showModal }) => {
       variant={variant} 
       onClick={handleClick}
       className={className}
-      >{`# ${channel.name}`}
+      >{`# ${filteredChannelName}`}
       </Button>
       {channel.removable && 
         <>

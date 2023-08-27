@@ -50,7 +50,6 @@ const AddModal = ({ hideModal }) => {
                 await addChannel(values);
                 const channelsIds = channels.map(channel => channel.id);
                 const lastAddedId = channelsIds[channelsIds.length];
-                console.log(lastAddedId)
                 setCurrentId(lastAddedId);
                 hideModal();
                 setSubmitting(true);
@@ -58,7 +57,6 @@ const AddModal = ({ hideModal }) => {
               }
               catch (e) {
                 setSubmitting(false);
-                toast.error(`${t('errors.networkError')}`)
               }
             }}
           >

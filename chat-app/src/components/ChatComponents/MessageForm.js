@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useChat } from "../../context";
@@ -26,12 +27,14 @@ const MessageForm = () => {
   return (
     <Formik
       initialValues={{body: ''}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        addMessage(values.body);
-        resetForm();
-        inputEl.current.focus();
-        setActive(false);
-        setSubmitting(false);
+      onSubmit={async (values, { resetForm }) => {
+        try {
+          await addMessage(values.body);
+          resetForm();
+          inputEl.current.focus();
+          setActive(false);
+          } catch {
+          }
       }}
     >
       {() => (

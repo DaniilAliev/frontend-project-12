@@ -9,6 +9,7 @@ import { actions as channelActions } from './slices/channelsSlice';
 import { actions as messageActions } from './slices/messagesSlice';
 import { actions as currentIdActions } from './slices/currentIdSlice';
 import initI18Next from "./components/locales/i18n";
+import { toast } from 'react-toastify';
 
 const initialization = async () => {
     const i18nextInstance = await initI18Next();
@@ -20,7 +21,6 @@ const initialization = async () => {
     });
 
     socket.on('newChannel', (payload) => {
-        console.log(payload)
         store.dispatch(channelActions.addChannel(payload));
         store.dispatch(currentIdActions.setCurrentId(payload.id))
     })
@@ -33,6 +33,10 @@ const initialization = async () => {
     socket.on('renameChannel', (payload) => {
         store.dispatch(channelActions.updateChannel({ id: payload.id, changes: { name: payload.name }}))
     });
+
+    socket.on('connect_error', (e) => {
+        toast.error(`Ошибка сети`);
+    })
 
     return(
         <AuthProvider>

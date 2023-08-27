@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { toast } from "react-toastify";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import cn from 'classnames';
@@ -42,7 +43,11 @@ const SignupForm = () => {
             if (error.response?.status === 409) {
               error.authentification = true;
               setUserExistance(true);
-            } else {
+            } else if (error.response?.status === 500) {
+              console.log('500')
+              toast.error(`${t('errors.networkError')}`);
+            }
+             else {
               setUserExistance(false)
             }
           }
