@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix chat-app",
-    "start": "start-server -s ./chat-app/build",
+    "start": "npx start-server ./chat-app/build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd chat-app && npm ci"
   },
