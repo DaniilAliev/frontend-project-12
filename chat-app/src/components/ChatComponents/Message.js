@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import filter from 'leo-profanity';
 
 const Message = ({ data }) => {
@@ -6,9 +6,10 @@ const Message = ({ data }) => {
 
   return (
     <div className="text-break mb-2">
-      <b>{data.user}</b>{`: ${filteredMessage}`}
+      <b>{data.user}</b>
+      {`: ${filteredMessage}`}
     </div>
-  )
+  );
 };
 
 export default Message;
