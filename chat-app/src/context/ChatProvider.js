@@ -58,7 +58,7 @@ const ChatProvider = ({ socket, children }) => {
       }
       resolve();
     });
-  }), [socket, currentId]);
+  }), [socket, currentId, user]);
 
   const setCurrentId = useCallback((id) => dispatch(currentIdActions
     .setCurrentId(id)), [dispatch]);

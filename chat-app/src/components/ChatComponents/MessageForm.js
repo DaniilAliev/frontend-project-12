@@ -33,7 +33,8 @@ const MessageForm = () => {
           resetForm();
           inputEl.current.focus();
           setActive(false);
-        } catch {
+        } catch (error) {
+          console.log(error);
           toast.error(`${t('errors.networkError')}`);
           setActive(true);
         }
