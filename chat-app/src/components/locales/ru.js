@@ -3,7 +3,7 @@ const ru = {
     login: {
       loginText: 'Войти',
       loginPlaceholder: 'Ваш ник',
-      passwordPlaceholder: 'Ваш пароль',
+      passwordPlaceholder: 'Пароль',
       submit: 'Войти',
       noAcc: 'Нет аккаунта? ',
     },
