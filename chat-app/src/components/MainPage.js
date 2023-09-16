@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import Channels from './ChatComponents/Channels';
 import MessagesWindow from './ChatComponents/MessagesWindow';
 import { useAuth, useChat } from '../context';
 import SpinnerLoading from './SpinnerLoading';
+// import API_ROUTES from '../routes/apiRoutes';
 
 const MainPage = () => {
   const { t } = useTranslation();
 
-  const { user } = useAuth();
+  const { user, auth } = useAuth();
   const { addChannels, addMessages } = useChat();
 
   const [isLoading, setLoading] = useState(false);
@@ -18,11 +19,7 @@ const MainPage = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/v1/data', {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
+        const response = await auth();
 
         const { data } = response;
 
@@ -33,7 +30,7 @@ const MainPage = () => {
     };
 
     fetchData();
-  }, [addChannels, addMessages, user, t]);
+  }, [addChannels, addMessages, user, t, auth]);
 
   const mainBlock = (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

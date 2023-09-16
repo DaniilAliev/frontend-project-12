@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context';
+import { useAuth } from '../../context';
+import submitLogIn from './submit';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -21,23 +20,7 @@ const LoginForm = () => {
     <Formik
       initialValues={{ username: '', password: '' }}
       onSubmit={async (values, { setSubmitting }) => {
-        try {
-          const response = await axios.post('/api/v1/login', { username: values.username, password: values.password });
-          if (response.data.token) {
-            logIn(response.data);
-            navigate('/');
-          }
-        } catch (error) {
-          setSubmitting(false);
-          if (error.response?.status === 401) {
-            error.authentification = true;
-            setInvalidState(true);
-          }
-          if (error.response?.status === 500) {
-            console.log('500');
-            toast.error(`${t('errors.networkError')}`);
-          }
-        }
+        await submitLogIn(values, logIn, navigate, setSubmitting, setInvalidState, t);
       }}
     >
       {() => (

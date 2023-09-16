@@ -13,6 +13,9 @@ const currentChannelIdSlice = createSlice({
     setCurrentId: (state, { payload }) => (
       { ...state, id: payload }
     ),
+    setDefaultId: (state) => (
+      { ...state, id: initialChannelId }
+    ),
   },
 });
 

@@ -1,5 +1,7 @@
-import React, { useMemo, useState } from 'react';
-import { AuthContext } from './index';
+import React, { useCallback, useMemo, useState } from 'react';
+import axios from 'axios';
+import { AuthContext } from '../context/index';
+import API_ROUTES from '../routes/apiRoutes';
 
 const AuthProvider = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -15,9 +17,19 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const auth = useCallback(async () => {
+    const response = await axios.get(API_ROUTES.DATA, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    return response;
+  }, [user]);
+
   const props = useMemo(() => ({
-    user, logIn, logOut, setUser,
-  }), [user]);
+    user, logIn, logOut, setUser, auth,
+  }), [user, auth]);
 
   return (
     <AuthContext.Provider value={props}>

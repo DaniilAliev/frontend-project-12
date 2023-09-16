@@ -1,9 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChatContext, useAuth } from './index';
-import { actions as channelsActions } from '../slices/channelsSlice';
-import { actions as messagesActions } from '../slices/messagesSlice';
-import { actions as currentIdActions } from '../slices/currentIdSlice';
+import { ChatContext, useAuth } from '../context/index';
+import { channelActions, messageActions, currentIdActions } from '../slices';
 
 const ChatProvider = ({ socket, children }) => {
   const dispatch = useDispatch();
@@ -12,15 +10,15 @@ const ChatProvider = ({ socket, children }) => {
 
   const { user } = useAuth();
 
-  const addChannels = useCallback((channels) => dispatch(channelsActions
+  const addChannels = useCallback((channels) => dispatch(channelActions
     .addChannels(channels)), [dispatch]);
 
   const addChannel = useCallback((channel) => new Promise((resolve, reject) => {
-    socket.timeout(5000).emit('newChannel', channel, (error) => {
+    socket.timeout(5000).emit('newChannel', channel, (error, payload) => {
       if (error) {
         reject(error);
       }
-      resolve();
+      resolve(payload);
     });
   }), [socket]);
 
@@ -42,7 +40,7 @@ const ChatProvider = ({ socket, children }) => {
     });
   }), [socket]);
 
-  const addMessages = useCallback((messages) => dispatch(messagesActions
+  const addMessages = useCallback((messages) => dispatch(messageActions
     .addMessages(messages)), [dispatch]);
 
   const addMessage = useCallback((message) => new Promise((resolve, reject) => {

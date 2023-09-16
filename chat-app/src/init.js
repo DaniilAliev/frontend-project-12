@@ -1,13 +1,11 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { io } from 'socket.io-client';
-import AuthProvider from './context/AuthProvider';
-import ChatProvider from './context/ChatProvider';
+import AuthProvider from './components/AuthProvider';
+import ChatProvider from './components/ChatProvider';
 import App from './App';
 import store from './slices/store';
-import { actions as channelActions } from './slices/channelsSlice';
-import { actions as messageActions } from './slices/messagesSlice';
-import { actions as currentIdActions } from './slices/currentIdSlice';
+import { channelActions, messageActions } from './slices';
 import initI18Next from './components/locales/i18n';
 
 const initialization = async () => {
@@ -21,12 +19,10 @@ const initialization = async () => {
 
   socket.on('newChannel', (payload) => {
     store.dispatch(channelActions.addChannel(payload));
-    store.dispatch(currentIdActions.setCurrentId(payload.id));
   });
 
   socket.on('removeChannel', (payload) => {
     store.dispatch(channelActions.removeChannel(payload.id));
-    store.dispatch(currentIdActions.setCurrentId(1));
   });
 
   socket.on('renameChannel', (payload) => {

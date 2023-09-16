@@ -49,14 +49,14 @@ const AddModal = ({ hideModal }) => {
             validateOnChange={false}
             onSubmit={async (values, { setSubmitting }) => {
               try {
-                await addChannel(values);
-                const channelsIds = channels.map((channel) => channel.id);
-                const lastAddedId = channelsIds[channelsIds.length];
-                setCurrentId(lastAddedId);
+                const response = await addChannel(values);
+                const lastAddedId = response.data.id;
                 hideModal();
                 setSubmitting(true);
                 toast.success(`${t('toastify.add')}`);
+                setCurrentId(lastAddedId);
               } catch (e) {
+                console.log(e);
                 setSubmitting(false);
                 toast.error(`${t('errors.networkError')}`);
               }

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import cn from 'classnames';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context';
+import { useAuth } from '../../context';
+import submitSignUp from './submit';
 
 const SignupForm = () => {
   const { t } = useTranslation();
@@ -33,22 +32,7 @@ const SignupForm = () => {
       validateOnBlur={false}
       validateOnChange={false}
       onSubmit={async (values) => {
-        try {
-          const response = await axios.post('/api/v1/signup', { username: values.username, password: values.password });
-          logIn(response.data);
-          navigate('/');
-          setUserExistance(false);
-        } catch (error) {
-          if (error.response?.status === 409) {
-            error.authentification = true;
-            setUserExistance(true);
-          } else if (error.response?.status === 500) {
-            console.log('500');
-            toast.error(`${t('errors.networkError')}`);
-          } else {
-            setUserExistance(false);
-          }
-        }
+        await submitSignUp(values, navigate, logIn, t, setUserExistance);
       }}
     >
       {({ errors, touched }) => (

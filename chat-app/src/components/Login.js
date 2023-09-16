@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LoginImage from '../images/login-image.jpeg';
 import SignUpImage from '../images/signup-image.jpg';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
+import LoginForm from './LogInForm/LoginForm';
+import SignupForm from './SignUpForm/SignupForm';
 
 const CardFooter = () => {
   const { t } = useTranslation();
