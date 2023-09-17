@@ -27,7 +27,7 @@ const ru = {
     },
     errors: {
       invalid: 'Неверные имя пользователя или пароль',
-      userAlreadyExisit: 'Пользователь уже существует',
+      userAlreadyExisit: 'Такой пользователь уже существует',
       reqired: 'Обязательное поле',
       usernameSymbols: 'От 3 до 20 символов',
       passwordSymbols: 'Не менее 6 символов',

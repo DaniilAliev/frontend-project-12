@@ -62,7 +62,7 @@ const SignupForm = () => {
             {(errors.confirmPassword && touched.confirmPassword) ? (
               <div className="invalid-tooltip">{errors.confirmPassword}</div>
             ) : (isUserExist && (
-            <div className="invalid-tooltip" />
+            <div className="invalid-tooltip">{`${t('errors.userAlreadyExisit')}`}</div>
             ))}
           </div>
           <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('signup.submit')}</button>
