@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../context';
+import { useAuthContext } from '../../context';
 import submitLogIn from './submit';
 
 const LoginForm = () => {
@@ -11,7 +11,7 @@ const LoginForm = () => {
 
   const [invalidState, setInvalidState] = useState(false);
   const navigate = useNavigate();
-  const { logIn } = useAuth();
+  const { logIn } = useAuthContext();
   const classNames = cn('form-control', {
     'is-invalid': invalidState,
   });
@@ -20,7 +20,7 @@ const LoginForm = () => {
     <Formik
       initialValues={{ username: '', password: '' }}
       onSubmit={async (values, { setSubmitting }) => {
-        await submitLogIn(values, logIn, navigate, setSubmitting, setInvalidState, t);
+        submitLogIn(values, logIn, navigate, setSubmitting, setInvalidState, t);
       }}
     >
       {() => (

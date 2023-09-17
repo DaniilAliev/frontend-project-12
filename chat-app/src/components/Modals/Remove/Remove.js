@@ -1,18 +1,16 @@
 import React from 'react';
-import { toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
-import { useChat } from '../../context';
-import store from '../../slices/store';
-import { currentIdActions } from '../../slices';
+import { useChatContext } from '../../../context';
+import removeSubmit from './submit';
 
 const RemoveModal = ({ hideModal, channel }) => {
   const { t } = useTranslation();
 
-  const { removeChannel } = useChat();
+  const { removeChannel } = useChatContext();
 
   const currentId = useSelector((state) => state.currentChannelId.id);
   console.log(currentId);
@@ -25,19 +23,7 @@ const RemoveModal = ({ hideModal, channel }) => {
         <Formik
           initialValues={{ name: '' }}
           onSubmit={async (values, { setSubmitting }) => {
-            try {
-              await removeChannel(channel.id);
-              if (currentId === channel.id) {
-                store.dispatch(currentIdActions.setDefaultId());
-              }
-              toast.success(`${t('toastify.remove')}`);
-              hideModal();
-              setSubmitting(true);
-            } catch (e) {
-              console.log(e);
-              toast.error(`${t('errors.networkError')}`);
-              setSubmitting(false);
-            }
+            await removeSubmit(removeChannel, currentId, channel, setSubmitting, t, hideModal);
           }}
         >
           {({ isSubmitting }) => (

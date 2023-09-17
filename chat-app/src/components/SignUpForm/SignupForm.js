@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../context';
+import { useAuthContext } from '../../context';
 import submitSignUp from './submit';
 
 const SignupForm = () => {
@@ -19,7 +19,7 @@ const SignupForm = () => {
   const [isUserExist, setUserExistance] = useState(null);
 
   const navigate = useNavigate();
-  const { logIn } = useAuth();
+  const { logIn } = useAuthContext();
 
   const classNames = (errors, touched, formName) => cn('form-control', {
     'is-invalid': (errors[formName] && touched[formName]) || isUserExist,

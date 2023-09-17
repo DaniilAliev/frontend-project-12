@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import Modal from 'react-bootstrap/Modal';
@@ -7,8 +6,9 @@ import Button from 'react-bootstrap/Button';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useChat } from '../../context';
-import { selectors } from '../../slices/channelsSlice';
+import { useChatContext } from '../../../context';
+import { selectors } from '../../../slices/channelsSlice';
+import addSubmit from './submit';
 
 const AddModal = ({ hideModal }) => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ const AddModal = ({ hideModal }) => {
 
   const channelsNames = channels.map((channel) => channel.name);
 
-  const { addChannel, setCurrentId } = useChat();
+  const { addChannel, setCurrentId } = useChatContext();
 
   const addChannelSchema = Yup.object().shape({
     name: Yup.string().trim().min(3, `${t('errors.usernameSymbols')}`).max(20, `${t('errors.usernameSymbols')}`)
@@ -48,18 +48,7 @@ const AddModal = ({ hideModal }) => {
             validateOnBlur={false}
             validateOnChange={false}
             onSubmit={async (values, { setSubmitting }) => {
-              try {
-                const response = await addChannel(values);
-                const lastAddedId = response.data.id;
-                hideModal();
-                setSubmitting(true);
-                toast.success(`${t('toastify.add')}`);
-                setCurrentId(lastAddedId);
-              } catch (e) {
-                console.log(e);
-                setSubmitting(false);
-                toast.error(`${t('errors.networkError')}`);
-              }
+              await addSubmit(values, addChannel, hideModal, setCurrentId, setSubmitting, t);
             }}
           >
             {({ errors, touched, isSubmitting }) => (

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useTranslation } from 'react-i18next';
-import { useChat } from '../../context';
+import { useChatContext } from '../../context';
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -14,7 +14,7 @@ const MessageForm = () => {
 
   const currentId = useSelector((state) => state.currentChannelId.id);
 
-  const { addMessage } = useChat();
+  const { addMessage } = useChatContext();
 
   useEffect(() => {
     inputEl.current.focus();

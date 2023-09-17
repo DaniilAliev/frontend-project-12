@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context';
+import { useAuthContext } from '../context';
 import MainPage from '../components/MainPage';
 
 const Root = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     if (!user) {

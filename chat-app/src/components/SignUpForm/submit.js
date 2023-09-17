@@ -9,7 +9,7 @@ const submitSignUp = async (values, navigate, logIn, t, setUserExistance) => {
       { username: values.username, password: values.password },
     );
     logIn(response.data);
-    navigate('/');
+    navigate(API_ROUTES.MAINPAGE);
     setUserExistance(false);
   } catch (error) {
     if (error.response?.status === 409) {

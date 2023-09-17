@@ -4,14 +4,24 @@ import filter from 'leo-profanity';
 import { useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useChat } from '../../context';
+import { useChatContext } from '../../context';
+
+const NotRemovableButton = ({
+  className, handleClick, variant, filteredChannelName,
+}) => (
+  <li className="nav-item w-100">
+    <Button variant={variant} className={className} onClick={handleClick}>
+      {`# ${filteredChannelName}`}
+    </Button>
+  </li>
+);
 
 const Channel = ({ channel, showModal }) => {
   const { t } = useTranslation();
 
   const currentId = useSelector((state) => state.currentChannelId.id);
 
-  const { setCurrentId } = useChat();
+  const { setCurrentId } = useChatContext();
 
   const handleClick = () => {
     setCurrentId(channel.id);
@@ -22,14 +32,6 @@ const Channel = ({ channel, showModal }) => {
   const variant = channel.id === currentId ? 'secondary' : 'default';
 
   const filteredChannelName = filter.clean(channel.name);
-
-  const notRemovableButton = (
-    <li className="nav-item w-100">
-      <Button variant={variant} className={className} onClick={handleClick}>
-        {`# ${filteredChannelName}`}
-      </Button>
-    </li>
-  );
 
   const removableButton = (
     <li className="nav-item w-100">
@@ -54,7 +56,16 @@ const Channel = ({ channel, showModal }) => {
     </li>
   );
 
-  return (channel.removable ? removableButton : notRemovableButton);
+  return (channel.removable
+    ? removableButton
+    : (
+      <NotRemovableButton
+        className={className}
+        handleClick={handleClick}
+        variant={variant}
+        filteredChannelName={filteredChannelName}
+      />
+    ));
 };
 
 export default Channel;

@@ -6,7 +6,7 @@ import ChatProvider from './components/ChatProvider';
 import App from './App';
 import store from './slices/store';
 import { channelActions, messageActions } from './slices';
-import initI18Next from './components/locales/i18n';
+import initI18Next from './locales/i18n';
 
 const initialization = async () => {
   const i18nextInstance = await initI18Next();

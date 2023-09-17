@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Channels from './ChatComponents/Channels';
 import MessagesWindow from './ChatComponents/MessagesWindow';
-import { useAuth, useChat } from '../context';
+import { useAuthContext, useChatContext } from '../context';
 import SpinnerLoading from './SpinnerLoading';
 // import API_ROUTES from '../routes/apiRoutes';
 
 const MainPage = () => {
   const { t } = useTranslation();
 
-  const { user, auth } = useAuth();
-  const { addChannels, addMessages } = useChat();
+  const { user, auth } = useAuthContext();
+  const { addChannels, addMessages } = useChatContext();
 
   const [isLoading, setLoading] = useState(false);
 

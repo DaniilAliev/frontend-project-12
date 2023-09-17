@@ -10,7 +10,7 @@ const submitLogIn = async (values, logIn, navigate, setSubmitting, setInvalidSta
     );
     if (response.data.token) {
       logIn(response.data);
-      navigate('/');
+      navigate(API_ROUTES.MAINPAGE);
     }
   } catch (error) {
     setSubmitting(false);

@@ -1,8 +1,8 @@
-import AddModal from './Add';
-import RemoveModal from './Remove';
-import RenameModal from './Rename';
+import AddModal from './Add/Add';
+import RemoveModal from './Remove/Remove';
+import RenameModal from './Rename/Rename';
 
-const getModalWithProps = (modalData, hideModal) => {
+const getModal = (modalData, hideModal) => {
   const mapping = {
     adding: <AddModal hideModal={hideModal} />,
     removing: <RemoveModal hideModal={hideModal} channel={modalData.channel} />,
@@ -11,8 +11,6 @@ const getModalWithProps = (modalData, hideModal) => {
 
   return mapping[modalData.type];
 };
-
-const getModal = (modalData, hideModal) => getModalWithProps(modalData, hideModal);
 
 const Modal = ({ modalData, hideModal }) => (modalData.type !== null
     && (

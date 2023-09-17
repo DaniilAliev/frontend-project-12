@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -7,8 +6,9 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useChat } from '../../context';
-import { selectors } from '../../slices/channelsSlice';
+import { useChatContext } from '../../../context';
+import { selectors } from '../../../slices/channelsSlice';
+import renameSubmit from './submit';
 
 const RenameModal = ({ hideModal, channel }) => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const RenameModal = ({ hideModal, channel }) => {
     inputEl.current.select();
   }, []);
 
-  const { renameChannel } = useChat();
+  const { renameChannel } = useChatContext();
 
   const channels = useSelector(selectors.selectAll);
 
@@ -48,15 +48,7 @@ const RenameModal = ({ hideModal, channel }) => {
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={async (values, { setSubmitting }) => {
-            try {
-              await renameChannel(channel.id, values.name);
-              hideModal();
-              setSubmitting(true);
-              toast.success(`${t('toastify.rename')}`);
-            } catch (e) {
-              setSubmitting(false);
-              toast.error(`${t('errors.networkError')}`);
-            }
+            await renameSubmit(values, channel, renameChannel, setSubmitting, hideModal, t);
           }}
         >
           {({
