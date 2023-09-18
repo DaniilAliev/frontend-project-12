@@ -2,7 +2,9 @@ import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolk
 
 const channelsAdapter = createEntityAdapter();
 
-const initialState = channelsAdapter.getInitialState();
+const initialChannelId = 1;
+
+const initialState = channelsAdapter.getInitialState({ currentChannelId: initialChannelId });
 
 const channelSlice = createSlice({
   name: 'channels',
@@ -14,13 +16,26 @@ const channelSlice = createSlice({
       channelsAdapter.removeOne(state, payload);
     },
     updateChannel: channelsAdapter.updateOne,
+    setCurrentId: (state, { payload }) => (
+      { ...state, currentChannelId: payload }
+    ),
+    setDefaultId: (state) => (
+      { ...state, currentChannelId: initialChannelId }
+    ),
   },
 });
 
 export const { actions } = channelSlice;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 
-export const getCurrentId = (state) => state.currentChannelId.id;
+export const getCurrentId = (state) => state.channels.currentChannelId;
+
+export const selectChannelsState = (state) => state.channels;
+
+export const selectCurrentChannelId = createSelector(
+  selectChannelsState,
+  (channelsState) => channelsState.currentChannelId,
+);
 
 export const getCurrentChannel = createSelector(
   selectors.selectAll,

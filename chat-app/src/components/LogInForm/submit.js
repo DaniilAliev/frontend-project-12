@@ -19,7 +19,6 @@ const submitLogIn = async (values, logIn, navigate, setSubmitting, setInvalidSta
       setInvalidState(true);
     }
     if (error.response?.status === 500) {
-      console.log('500');
       toast.error(`${t('errors.networkError')}`);
     }
   }

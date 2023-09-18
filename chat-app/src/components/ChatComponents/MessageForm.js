@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../../context';
+import { selectCurrentChannelId } from '../../slices/channelsSlice';
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -12,7 +13,7 @@ const MessageForm = () => {
 
   const inputEl = useRef(null);
 
-  const currentId = useSelector((state) => state.currentChannelId.id);
+  const currentId = useSelector(selectCurrentChannelId);
 
   const { addMessage } = useChatContext();
 

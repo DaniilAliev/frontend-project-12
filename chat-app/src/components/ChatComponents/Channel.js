@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../../context';
+import { selectCurrentChannelId } from '../../slices/channelsSlice';
 
 const NotRemovableButton = ({
   className, handleClick, variant, filteredChannelName,
@@ -19,7 +20,7 @@ const NotRemovableButton = ({
 const Channel = ({ channel, showModal }) => {
   const { t } = useTranslation();
 
-  const currentId = useSelector((state) => state.currentChannelId.id);
+  const currentId = useSelector(selectCurrentChannelId);
 
   const { setCurrentId } = useChatContext();
 

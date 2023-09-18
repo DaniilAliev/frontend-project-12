@@ -6,14 +6,15 @@ import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import { useChatContext } from '../../../context';
 import removeSubmit from './submit';
+import { selectCurrentChannelId } from '../../../slices/channelsSlice';
 
 const RemoveModal = ({ hideModal, channel }) => {
   const { t } = useTranslation();
 
   const { removeChannel } = useChatContext();
 
-  const currentId = useSelector((state) => state.currentChannelId.id);
-  console.log(currentId);
+  const currentId = useSelector(selectCurrentChannelId);
+
   return (
     <Modal show onHide={hideModal} centered>
       <Modal.Header closeButton>

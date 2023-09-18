@@ -1,12 +1,13 @@
 import React, { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChatContext, useAuthContext } from '../context/index';
-import { channelActions, messageActions, currentIdActions } from '../slices';
+import { channelActions, messageActions } from '../slices';
+import { selectCurrentChannelId } from '../slices/channelsSlice';
 
 const ChatProvider = ({ socket, children }) => {
   const dispatch = useDispatch();
 
-  const currentId = useSelector((state) => state.currentChannelId.id);
+  const currentId = useSelector(selectCurrentChannelId);
 
   const { user } = useAuthContext();
 
@@ -58,7 +59,7 @@ const ChatProvider = ({ socket, children }) => {
     });
   }), [socket, currentId, user]);
 
-  const setCurrentId = useCallback((id) => dispatch(currentIdActions
+  const setCurrentId = useCallback((id) => dispatch(channelActions
     .setCurrentId(id)), [dispatch]);
 
   const props = useMemo(
