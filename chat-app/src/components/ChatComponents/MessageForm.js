@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../../context';
-import { selectCurrentChannelId } from '../../slices/channelsSlice';
+import { selectCurrentChannelId } from '../../slices/channelSelectors';
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -25,20 +25,24 @@ const MessageForm = () => {
     setActive(!!e.target.value);
   };
 
+  const submitForm = async (values, resetForm) => {
+    try {
+      await addMessage(values.body);
+      resetForm();
+      inputEl.current.focus();
+      setActive(false);
+    } catch (error) {
+      console.log(error);
+      toast.error(`${t('errors.networkError')}`);
+      setActive(true);
+    }
+  };
+
   return (
     <Formik
       initialValues={{ body: '' }}
       onSubmit={async (values, { resetForm }) => {
-        try {
-          await addMessage(values.body);
-          resetForm();
-          inputEl.current.focus();
-          setActive(false);
-        } catch (error) {
-          console.log(error);
-          toast.error(`${t('errors.networkError')}`);
-          setActive(true);
-        }
+        await submitForm(values, resetForm);
       }}
     >
       {() => (

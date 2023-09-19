@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChatContext, useAuthContext } from '../context/index';
 import { channelActions, messageActions } from '../slices';
-import { selectCurrentChannelId } from '../slices/channelsSlice';
+import { selectCurrentChannelId } from '../slices/channelSelectors';
 
 const ChatProvider = ({ socket, children }) => {
   const dispatch = useDispatch();
@@ -11,11 +11,13 @@ const ChatProvider = ({ socket, children }) => {
 
   const { user } = useAuthContext();
 
+  const timeOutTime = 5000;
+
   const addChannels = useCallback((channels) => dispatch(channelActions
     .addChannels(channels)), [dispatch]);
 
   const addChannel = useCallback((channel) => new Promise((resolve, reject) => {
-    socket.timeout(5000).emit('newChannel', channel, (error, payload) => {
+    socket.timeout(timeOutTime).emit('newChannel', channel, (error, payload) => {
       if (error) {
         reject(error);
       }
@@ -24,7 +26,7 @@ const ChatProvider = ({ socket, children }) => {
   }), [socket]);
 
   const removeChannel = useCallback((id) => new Promise((resolve, reject) => {
-    socket.timeout(5000).emit('removeChannel', { id }, (error) => {
+    socket.timeout(timeOutTime).emit('removeChannel', { id }, (error) => {
       if (error) {
         reject(error);
       }
@@ -33,7 +35,7 @@ const ChatProvider = ({ socket, children }) => {
   }), [socket]);
 
   const renameChannel = useCallback((id, name) => new Promise((resolve, reject) => {
-    socket.timeout(5000).emit('renameChannel', { id, name }, (error) => {
+    socket.timeout(timeOutTime).emit('renameChannel', { id, name }, (error) => {
       if (error) {
         reject(error);
       }
@@ -51,7 +53,7 @@ const ChatProvider = ({ socket, children }) => {
       user: user.username,
     };
 
-    socket.timeout(5000).emit('newMessage', messageData, (error) => {
+    socket.timeout(timeOutTime).emit('newMessage', messageData, (error) => {
       if (error) {
         reject(error);
       }

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import Channels from './ChatComponents/Channels';
 import MessagesWindow from './ChatComponents/MessagesWindow';
 import { useAuthContext, useChatContext } from '../context';
 import SpinnerLoading from './SpinnerLoading';
-// import API_ROUTES from '../routes/apiRoutes';
 
 const MainPage = () => {
   const { t } = useTranslation();

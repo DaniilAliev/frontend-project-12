@@ -1,6 +1,6 @@
-import AddModal from './Add/Add';
-import RemoveModal from './Remove/Remove';
-import RenameModal from './Rename/Rename';
+import AddModal from './Add';
+import RemoveModal from './Remove';
+import RenameModal from './Rename';
 
 const getModal = (modalData, hideModal) => {
   const mapping = {

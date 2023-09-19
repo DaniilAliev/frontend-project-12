@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import MessageForm from './MessageForm';
 import Message from './Message';
-import { getCurrentChannel, selectCurrentChannelId } from '../../slices/channelsSlice';
+import { selectCurrentChannelId, selectCurrentChannel } from '../../slices/channelSelectors';
 import { selectors as messagesSelectors } from '../../slices/messagesSlice';
 
 const MessagesWindow = () => {
@@ -12,7 +12,7 @@ const MessagesWindow = () => {
   const currentId = useSelector(selectCurrentChannelId);
   const messages = useSelector(messagesSelectors.selectAll);
 
-  const currentChannel = useSelector(getCurrentChannel);
+  const currentChannel = useSelector(selectCurrentChannel);
 
   const currentMessages = messages.filter((message) => message.channelId === currentId);
 
@@ -24,7 +24,7 @@ const MessagesWindow = () => {
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
             <b>
-              {`# ${currentChannel && currentChannel.name}`}
+              {`# ${currentChannel?.name}`}
             </b>
           </p>
           <span className="text-muted">{`${messagesCount} ${t('chatPage.messageCount', { count: messagesCount })}`}</span>
