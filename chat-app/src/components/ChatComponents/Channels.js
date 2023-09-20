@@ -12,8 +12,6 @@ const Channels = () => {
 
   const channels = useSelector(selectors.selectAll);
 
-  console.log(channels);
-
   const initialState = { type: null, channel: null };
 
   const [modalData, setModal] = useImmer(initialState);

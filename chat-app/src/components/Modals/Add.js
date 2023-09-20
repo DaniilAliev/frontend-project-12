@@ -19,7 +19,7 @@ const AddModal = ({ hideModal }) => {
     inputEl.current.focus();
   }, []);
 
-  const channels = useSelector(selectors.selectChannelsState);
+  const channels = useSelector(selectors.selectAll);
 
   const channelsNames = channels.map((channel) => channel.name);
 

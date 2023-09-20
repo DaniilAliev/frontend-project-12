@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import { useChatContext } from '../../context';
-import { selectors } from '../../slices/channelSelectors';
+import { selectCurrentChannelId } from '../../slices/channelSelectors';
 import store from '../../slices/store';
 import { channelActions } from '../../slices';
 
@@ -15,7 +15,7 @@ const RemoveModal = ({ hideModal, channel }) => {
 
   const { removeChannel } = useChatContext();
 
-  const currentId = useSelector(selectors.selectCurrentChannelId);
+  const currentId = useSelector(selectCurrentChannelId);
 
   const removeSubmit = async (setSubmitting) => {
     try {
