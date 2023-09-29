@@ -4,6 +4,7 @@ const API_ROUTES = {
   SIGNUP: '/api/v1/signup',
   MAINPAGE: '/',
   SIGNUPPAGE: '/signup',
+  LOGINROOT: '/login',
 };
 
 export default API_ROUTES;

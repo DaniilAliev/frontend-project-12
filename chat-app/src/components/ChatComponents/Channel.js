@@ -1,11 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
 import filter from 'leo-profanity';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../../context';
 import { selectCurrentChannelId } from '../../slices/channelSelectors';
+import { modalActions } from '../../slices';
 
 const NotRemovableButton = ({
   className, handleClick, variant, filteredChannelName,
@@ -17,8 +18,10 @@ const NotRemovableButton = ({
   </li>
 );
 
-const Channel = ({ channel, showModal }) => {
+const Channel = ({ channel }) => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const currentId = useSelector(selectCurrentChannelId);
 
@@ -49,8 +52,8 @@ const Channel = ({ channel, showModal }) => {
             <span className="visually-hidden">{t('chatPage.channelOptions')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#" onClick={() => showModal('removing', channel)}>{t('chatPage.removeChannel')}</Dropdown.Item>
-            <Dropdown.Item href="#" onClick={() => showModal('renaming', channel)}>{t('chatPage.renameChannel')}</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => dispatch(modalActions.openModal({ type: 'removing', channel }))}>{t('chatPage.removeChannel')}</Dropdown.Item>
+            <Dropdown.Item href="#" onClick={() => dispatch(modalActions.openModal({ type: 'renaming', channel }))}>{t('chatPage.renameChannel')}</Dropdown.Item>
           </Dropdown.Menu>
         </>
       </Dropdown>

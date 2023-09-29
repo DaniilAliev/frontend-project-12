@@ -1,21 +1,15 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+// import { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../context';
 import MainPage from '../components/MainPage';
+import API_ROUTES from './apiRoutes';
 
 const Root = () => {
-  const navigate = useNavigate();
   const { user } = useAuthContext();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
 
   return (
     <>
-      {user && <MainPage />}
+      {user ? <MainPage /> : <Navigate to={API_ROUTES.LOGINROOT} />}
       <Outlet />
     </>
   );

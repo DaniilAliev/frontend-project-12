@@ -3,19 +3,25 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import { useChatContext } from '../../context';
 import { selectCurrentChannelId } from '../../slices/channelSelectors';
 import store from '../../slices/store';
-import { channelActions } from '../../slices';
+import { channelActions, modalActions } from '../../slices';
 
-const RemoveModal = ({ hideModal, channel }) => {
+const RemoveModal = ({ channel }) => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const { removeChannel } = useChatContext();
 
   const currentId = useSelector(selectCurrentChannelId);
+
+  const closeModal = () => {
+    dispatch(modalActions.closeModal());
+  };
 
   const removeSubmit = async (setSubmitting) => {
     try {
@@ -24,7 +30,7 @@ const RemoveModal = ({ hideModal, channel }) => {
         store.dispatch(channelActions.setDefaultId());
       }
       toast.success(`${t('toastify.remove')}`);
-      hideModal();
+      closeModal();
       setSubmitting(true);
     } catch (e) {
       console.log(e);
@@ -34,7 +40,7 @@ const RemoveModal = ({ hideModal, channel }) => {
   };
 
   return (
-    <Modal show onHide={hideModal} centered>
+    <Modal show onHide={closeModal} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.remove.title')}</Modal.Title>
       </Modal.Header>
@@ -49,7 +55,7 @@ const RemoveModal = ({ hideModal, channel }) => {
             <Form>
               <p className="lead">{t('modals.remove.p')}</p>
               <div className="d-flex justify-content-end">
-                <Button variant="secondary" className="me-2" onClick={hideModal}>{t('modals.remove.cancelBtn')}</Button>
+                <Button variant="secondary" className="me-2" onClick={closeModal}>{t('modals.remove.cancelBtn')}</Button>
                 <Button type="submit" variant="danger" disabled={isSubmitting}>{t('modals.remove.removeBtn')}</Button>
               </div>
             </Form>

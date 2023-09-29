@@ -5,13 +5,16 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../../context';
 import { selectors } from '../../slices/channelSelectors';
+import { modalActions } from '../../slices';
 
-const AddModal = ({ hideModal }) => {
+const AddModal = () => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const inputEl = useRef();
 
@@ -35,11 +38,15 @@ const AddModal = ({ hideModal }) => {
     'is-invalid': errors.name && touched.name,
   });
 
+  const closeModal = () => {
+    dispatch(modalActions.closeModal());
+  };
+
   const addSubmit = async (values, setSubmitting) => {
     try {
       const response = await addChannel(values);
       const lastAddedId = response.data.id;
-      hideModal();
+      closeModal();
       setSubmitting(true);
       toast.success(`${t('toastify.add')}`);
       setCurrentId(lastAddedId);
@@ -52,7 +59,7 @@ const AddModal = ({ hideModal }) => {
 
   return (
     <div className="modal-content">
-      <Modal show onHide={hideModal} centered>
+      <Modal show onHide={closeModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>{t('modals.add.title')}</Modal.Title>
         </Modal.Header>
@@ -75,7 +82,7 @@ const AddModal = ({ hideModal }) => {
                     <div className="invalid-feedback">{errors.name}</div>
                   ) : null}
                   <div className="d-flex justify-content-end">
-                    <Button variant="secondary" className="me-2" onClick={hideModal}>{t('modals.add.cancelBtn')}</Button>
+                    <Button variant="secondary" className="me-2" onClick={closeModal}>{t('modals.add.cancelBtn')}</Button>
                     <Button type="submit" disabled={isSubmitting}>{t('modals.add.submitBtn')}</Button>
                   </div>
                 </div>

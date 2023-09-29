@@ -5,13 +5,16 @@ import Button from 'react-bootstrap/Button';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
 import cn from 'classnames';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useChatContext } from '../../context';
 import { selectors } from '../../slices/channelSelectors';
+import { modalActions } from '../../slices';
 
-const RenameModal = ({ hideModal, channel }) => {
+const RenameModal = ({ channel }) => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const inputEl = useRef();
 
@@ -36,10 +39,14 @@ const RenameModal = ({ hideModal, channel }) => {
     'is-invalid': errors.name && touched.name,
   });
 
+  const closeModal = () => {
+    dispatch(modalActions.closeModal());
+  };
+
   const renameSubmit = async (values, setSubmitting) => {
     try {
       await renameChannel(channel.id, values.name);
-      hideModal();
+      closeModal();
       setSubmitting(true);
       toast.success(`${t('toastify.rename')}`);
     } catch (e) {
@@ -49,7 +56,7 @@ const RenameModal = ({ hideModal, channel }) => {
   };
 
   return (
-    <Modal show onHide={hideModal} centered>
+    <Modal show onHide={closeModal} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.rename.title')}</Modal.Title>
       </Modal.Header>
@@ -83,7 +90,7 @@ const RenameModal = ({ hideModal, channel }) => {
                 ) : null}
               </div>
               <div className="d-flex justify-content-end">
-                <Button variant="secondary" className="me-2" onClick={hideModal}>
+                <Button variant="secondary" className="me-2" onClick={closeModal}>
                   {t('modals.rename.cancelBtn')}
                 </Button>
                 <Button type="submit" disabled={isSubmitting}>
