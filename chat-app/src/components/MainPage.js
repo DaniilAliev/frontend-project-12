@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate } from 'react-router-dom';
 import Channels from './ChatComponents/Channels';
 import MessagesWindow from './ChatComponents/MessagesWindow';
 import { useAuthContext, useChatContext } from '../context';
 import SpinnerLoading from './SpinnerLoading';
-import API_ROUTES from '../routes/apiRoutes';
 
 const MainPage = () => {
   const { t } = useTranslation();
 
-  const { user, auth } = useAuthContext();
+  const { user, auth, logOut } = useAuthContext();
   const { addChannels, addMessages } = useChatContext();
 
   const [isLoading, setLoading] = useState(false);
@@ -28,13 +26,13 @@ const MainPage = () => {
         setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          <Navigate to={API_ROUTES.LOGINROOT} />;
+          logOut();
         }
       }
     };
 
     fetchData();
-  }, [addChannels, addMessages, user, t, auth]);
+  }, [addChannels, addMessages, user, t, auth, logOut]);
 
   const mainBlock = (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

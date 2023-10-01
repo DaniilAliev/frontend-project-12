@@ -4,12 +4,11 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { useState, useEffect } from 'react';
-import Root from './routes/root';
+import Root, { PrivateOutlet } from './routes/root';
 import ErrorPage from './components/ErrorPage';
 import NavBar from './components/NavBar';
 import Login from './components/Login';
-// import SpinnerLoading from './components/SpinnerLoading';
+import MainPage from './components/MainPage';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +23,16 @@ const router = createBrowserRouter([
       {
         path: 'signup/',
         element: <Login type="signup" />,
+      },
+      {
+        path: '',
+        element: <PrivateOutlet />,
+        children: [
+          {
+            path: '',
+            element: <MainPage />,
+          },
+        ],
       },
     ],
   },
