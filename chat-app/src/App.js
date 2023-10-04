@@ -9,6 +9,7 @@ import ErrorPage from './components/ErrorPage';
 import NavBar from './components/NavBar';
 import MainPage from './components/MainPage';
 import Login from './components/Login';
+import APP_ROUTES from './routes/appRoutes';
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'login/',
+        path: APP_ROUTES.LOGIN_ROOT,
         element: <Login type="login" />,
       },
       {
-        path: 'signup/',
+        path: APP_ROUTES.SIGNUP_PAGE,
         element: <Login type="signup" />,
       },
       {
