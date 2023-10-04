@@ -1,15 +1,14 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../context';
-// import MainPage from '../components/MainPage';
-import API_ROUTES from './apiRoutes';
+import APP_ROUTES from './appRoutes';
 
-const Root = () => {
-
-};
+const Root = () => (
+  <Outlet />
+);
 
 const PrivateOutlet = () => {
   const { user } = useAuthContext();
-  return user ? <Outlet /> : <Navigate to={API_ROUTES.LOGINROOT} />;
+  return user ? <Outlet /> : <Navigate to={APP_ROUTES.LOGIN_ROOT} />;
 };
 
 export default Root;

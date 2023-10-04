@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import API_ROUTES from '../../routes/apiRoutes';
+import APP_ROUTES from '../../routes/appRoutes';
 
 const submitSignUp = async (values, navigate, logIn, t, setUserExistance) => {
   try {
@@ -9,7 +10,7 @@ const submitSignUp = async (values, navigate, logIn, t, setUserExistance) => {
       { username: values.username, password: values.password },
     );
     logIn(response.data);
-    navigate(API_ROUTES.MAINPAGE);
+    navigate(APP_ROUTES.MAIN_PAGE);
     setUserExistance(false);
   } catch (error) {
     if (error.response?.status === 409) {

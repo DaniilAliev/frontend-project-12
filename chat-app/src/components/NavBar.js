@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useAuthContext } from '../context';
-import API_ROUTES from '../routes/apiRoutes';
+import APP_ROUTES from '../routes/appRoutes';
 
 const NavBar = () => {
   const { t, i18n } = useTranslation();
@@ -17,7 +17,7 @@ const NavBar = () => {
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href={API_ROUTES.MAINPAGE}>{t('navBar.hexletChat')}</a>
+        <a className="navbar-brand" href={APP_ROUTES.MAIN_PAGE}>{t('navBar.hexletChat')}</a>
         <Dropdown as={ButtonGroup} className="d-flex">
           <Dropdown.Toggle variant="default">{t('navBar.lang')}</Dropdown.Toggle>
           <Dropdown.Menu>

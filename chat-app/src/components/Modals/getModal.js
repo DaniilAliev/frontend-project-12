@@ -18,7 +18,6 @@ const getModal = (modalData) => {
 
 const Modal = () => {
   const modalState = useSelector((state) => state.modal);
-  console.log(modalState.type);
 
   return modalState.type !== null
     && (

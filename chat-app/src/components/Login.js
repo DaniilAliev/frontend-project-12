@@ -6,7 +6,7 @@ import LoginImage from '../images/login-image.jpeg';
 import SignUpImage from '../images/signup-image.jpg';
 import LoginForm from './LogInForm/LoginForm';
 import SignupForm from './SignUpForm/SignupForm';
-import API_ROUTES from '../routes/apiRoutes';
+import APP_ROUTES from '../routes/appRoutes';
 
 const CardFooter = () => {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const CardFooter = () => {
     <div className="card-footer p-4">
       <div className="text-center">
         <span>{t('login.noAcc')}</span>
-        <Link to={API_ROUTES.SIGNUPPAGE}>{t('signup.signupText')}</Link>
+        <Link to={APP_ROUTES.SIGNUP_PAGE}>{t('signup.signupText')}</Link>
       </div>
     </div>
   );

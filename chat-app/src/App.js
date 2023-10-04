@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Root, { PrivateOutlet } from './routes/root';
 import ErrorPage from './components/ErrorPage';
 import NavBar from './components/NavBar';
-import Login from './components/Login';
 import MainPage from './components/MainPage';
+import Login from './components/Login';
 
 const router = createBrowserRouter([
   {

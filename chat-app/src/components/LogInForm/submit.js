@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import API_ROUTES from '../../routes/apiRoutes';
+import APP_ROUTES from '../../routes/appRoutes';
 
 const submitLogIn = async (values, logIn, navigate, setSubmitting, setInvalidState, t) => {
   try {
@@ -10,7 +11,7 @@ const submitLogIn = async (values, logIn, navigate, setSubmitting, setInvalidSta
     );
     if (response.data.token) {
       logIn(response.data);
-      navigate(API_ROUTES.MAINPAGE);
+      navigate(APP_ROUTES.MAIN_PAGE);
     }
   } catch (error) {
     setSubmitting(false);
